@@ -1,0 +1,34 @@
+<meta charset="UTF-8" />
+<script src="https://unpkg.com/vue@3"></script>
+
+<style>
+  .layer-1 {
+    border: 3px solid red;
+  }
+  .layer-2 {
+    border: 5px solid green;
+  }
+  .cool {
+    border: 3px solid orange;
+  }
+</style>
+
+<div id="app">
+  <div class="layer-1"></div>
+  <div class="layer-2"></div>
+  <my-component></my-component>
+</div>
+
+<script>
+  const app = Vue.createApp({});
+  app.component("my-component", {
+    template: `
+      <div class="cool">
+        <teleport to=".layer-2">
+          <h3>被移動的文字</h3>
+        </teleport>
+      </div>
+    `
+  });
+  app.mount("#app");
+</script>
