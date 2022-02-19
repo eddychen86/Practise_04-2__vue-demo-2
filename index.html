@@ -7,11 +7,28 @@
 		<title>Static Template</title>
 	</head>
 	<body>
-		<h1>
-			This is a static template, there is no bundler or bundling involved!
-		</h1>
+		<div id="app">
+			<sample-component></sample-component>
+		</div>
 
 		<script src="https://unpkg.com/vue@3"></script>
-		<script></script>
+		<script type="text/x-template" id="sample">
+			<div>Text {{ text }}</div>
+			<div>Parent text {{ parentText }}</div>
+		</script>
+
+		<script>
+			const app = Vue.createApp({});
+			app.component("sample-component", {
+				template: `#sample`,
+				data() {
+					return {
+						text: "something"
+					};
+				}
+			});
+
+			app.mount("#app");
+		</script>
 	</body>
 </html>
