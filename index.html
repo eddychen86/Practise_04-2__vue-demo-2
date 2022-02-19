@@ -1,34 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
-		<title>Static Template</title>
-	</head>
-	<body>
-		<div id="app">
-			<sample-component></sample-component>
-		</div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Static Template</title>
+  </head>
+  <body>
+    <div id="app">
+      <!-- <sample-component></sample-component> -->
+      <!-- 若 div 的屬性名稱是寫成「ab-cd」，那在 script 中想抓到 div 的 ab-cd 的話，
+			就必須將「-」後面的第一個字母寫成大寫，像這樣「abCd」 -->
+      <sample-component
+        :parent-text="text"
+        :parent-number="number"
+      ></sample-component>
+    </div>
 
-		<script src="https://unpkg.com/vue@3"></script>
-		<script type="text/x-template" id="sample">
-			<div>Text {{ text }}</div>
-			<div>Parent text {{ parentText }}</div>
-		</script>
+    <script src="https://unpkg.com/vue@3"></script>
+    <script type="text/x-template" id="sample">
+      <div>Text {{ text }}</div>
+      <div>Parent text {{ parentText }}</div>
+    </script>
 
-		<script>
-			const app = Vue.createApp({});
-			app.component("sample-component", {
-				template: `#sample`,
-				data() {
-					return {
-						text: "something"
-					};
-				}
-			});
+    <script>
+      const app = Vue.createApp({
+        data() {
+          return {
+            text: "Cool",
+            number: 10
+          };
+        }
+      });
 
-			app.mount("#app");
-		</script>
-	</body>
+      app.component("sample-component", {
+        template: `#sample`,
+        props: {
+          parentText: {
+            type: [String]
+          },
+          parentNumber: {
+            type: [Number, Boolean],
+            required: true,
+            default: 12,
+            validator: (value) => value > 20
+          }
+        },
+        data() {
+          return {
+            text: "something"
+          };
+        }
+      });
+
+      app.mount("#app");
+    </script>
+  </body>
 </html>
