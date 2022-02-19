@@ -1,1 +1,29 @@
 <meta charset="UTF-8" />
+<script src="https://unpkg.com/vue@3"></script>
+
+<div id="app">
+  <my-component>
+    <h1>{{msg}}</h1>
+    <input type="text" v-model="message" />
+  </my-component>
+</div>
+
+<script>
+  const app = Vue.createApp({
+    data() {
+      return {
+        msg: "Cool",
+        message: "Good"
+      };
+    }
+  });
+  app.component("my-component", {
+    template: `
+      <div>
+        Hello!
+        <slot></slot>
+      </div>
+    `
+  });
+  app.mount("#app");
+</script>
