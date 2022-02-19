@@ -1,0 +1,66 @@
+<meta charset="UTF-8" />
+<script src="https://unpkg.com/vue@3"></script>
+
+<div id="app">
+  <keep-alive>
+    <component :is="currentForm" @setting-form="updateForm"></component>
+  </keep-alive>
+</div>
+
+<script type="text/x-template" id="form1">
+  <label>姓名</label>
+  <input v-model="name"> <br/>
+  <label>電話</label>
+  <input v-model="phone"> <br/>
+  <input type="button" value="下一步" @click="nextSteps">
+</script>
+
+<script type="text/x-template" id="form2">
+  <label>地址</label>
+  <input v-model="address"> <br/>
+  <input type="button" value="上一步" @click="preSteps">
+  <input type="button" value="下一步" @click="nextSteps">
+</script>
+
+<script type="text/x-template" id="form3">
+  <h3>請確認資料</h3>
+  <div>{{}}</div>
+</script>
+
+<script>
+  const app = Vue.createApp({
+    data() {
+      return {
+        currentForm: "personal-form"
+      };
+    },
+    methods: {
+      updateForm(value) {
+        this.currentForm = value;
+      }
+    }
+  });
+
+  app.component("personal-form", {
+    template: "#form1",
+    methods: {
+      nextSteps() {
+        this.$emit("setting-form", "address-form");
+      }
+    }
+  });
+
+  app.component("address-form", {
+    template: "#form2",
+    methods: {
+      preSteps() {
+        this.$emit("setting-form", "personal-form");
+      },
+      nextSteps() {
+        this.$emit("setting-form", "final-form");
+      }
+    }
+  });
+
+  app.mount("#app");
+</script>
