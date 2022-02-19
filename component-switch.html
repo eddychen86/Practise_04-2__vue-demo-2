@@ -1,0 +1,26 @@
+<div id="app">
+  <a v-for="tab in tabs" @click="currentTab = tab" href="#">{{ tab }}&nbsp;</a>
+  <component :is="currentTab"></component>
+</div>
+
+<script src="https://unpkg.com/vue@3"></script>
+<script>
+  const app = Vue.createApp({
+    data() {
+      return {
+        currentTab: "index",
+        tabs: ["abc", "def", "ghi"]
+      };
+    }
+  });
+  app.component("abc", {
+    template: `<div>abc</div>`
+  });
+  app.component("def", {
+    template: `<div>def</div>`
+  });
+  app.component("ghi", {
+    template: `<div>ghi</div>`
+  });
+  app.mount("#app");
+</script>

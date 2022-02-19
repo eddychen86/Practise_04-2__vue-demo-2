@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>how event work?</title>
+  </head>
+  <body>
+    <div id="app">
+      <h3>How event work?</h3>
+      <h4>noticeNumber</h4>
+      <my-component @notice="noticeNumber"></my-component>
+    </div>
+    <script src="https://unpkg.com/vue@3"></script>
+    <script>
+      const app = Vue.createApp({
+        methods: {
+          noticeNumber(number) {
+            if (number > 5) {
+              alert("數量超過 5");
+            }
+          }
+        }
+      });
+      app.component("my-component", {
+        template: '<input v-model="number">',
+        data() {
+          return {
+            number: 0
+          };
+        },
+        watch: {
+          number: {
+            handler(val) {
+              this.$emit("notice", val);
+            }
+          }
+        }
+      });
+      app.mount("#app");
+    </script>
+  </body>
+</html>

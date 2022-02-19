@@ -13,12 +13,18 @@
         <li>{{ post.author }}</li>
       </ul>
       <!-- <post-component v-for="post in posts" :post-info="post"></post-component> -->
-      <template v-for="post in posts">
-        <post-component
-          :author="post.author"
-          :title="post.title"
-        ></post-component>
-      </template>
+      <!-- (1) -->
+      <post-component
+        v-for="post in posts"
+        :author="post.author"
+        :title="post.title"
+      ></post-component>
+      <!-- (2)
+      <post-component
+        :author="post.author"
+        :title="post.title"
+      ></post-component>
+      <post-component v-for="post in posts" v-bind="post"></post-component> -->
     </div>
 
     <script src="https://unpkg.com/vue@3"></script>

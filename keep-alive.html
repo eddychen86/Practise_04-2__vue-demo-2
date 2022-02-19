@@ -1,0 +1,57 @@
+<div id="app">
+  <a v-for="tab in tabs" @click="currentTab = tab" href="#">{{ tab }}&nbsp;</a>
+  <!-- :include 原理：
+    會保存另外新增的資料 -->
+  <keep-alive :include="['index_name']">
+    <component :is="currentTab"></component>
+  </keep-alive>
+  <!-- :max 原理：
+    不管有無新增新資料，點選一個選項代表儲存一份資料，
+    這邊設定為保存 2 份資料，所以只會保存點選過的 2 個選項，
+    且 :max 只會保存最後選擇的第二份資料，
+    若第二份資料沒有新增新資料的話。在選擇第3個選項後，
+    會自動將其他選項的內容跟第3個選項的內容同步為沒有新資料的存在 -->
+  <keep-alive :max="2">
+    <component :is="currentTab"></component>
+  </keep-alive>
+</div>
+
+<script src="https://unpkg.com/vue@3"></script>
+<script>
+  const app = Vue.createApp({
+    data() {
+      return {
+        currentTab: "index",
+        tabs: ["abc", "def", "ghi"]
+      };
+    }
+  });
+  app.component("abc", {
+    name: "index_name",
+    template: `<div><input v-model="data1"></div>`,
+    data() {
+      return {
+        data1: "abc"
+      };
+    }
+  });
+  app.component("def", {
+    name: "index_name",
+    template: `<div><input v-model="data2"></div>`,
+    data() {
+      return {
+        data2: "def"
+      };
+    }
+  });
+  app.component("ghi", {
+    name: "index_name",
+    template: `<div><input v-model="data3"></div>`,
+    data() {
+      return {
+        data3: "ghi"
+      };
+    }
+  });
+  app.mount("#app");
+</script>
